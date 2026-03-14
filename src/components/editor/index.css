@@ -1,0 +1,39 @@
+.http-get {
+  color: #1677ff !important;
+  font-weight: bold;
+}
+
+.http-post {
+  color: #52c41a !important;
+  font-weight: bold;
+}
+
+.http-put {
+  color: #faad14 !important;
+  font-weight: bold;
+}
+
+.http-delete {
+  color: #ff4d4f !important;
+  font-weight: bold;
+}
+
+.http-patch {
+  color: #722ed1 !important;
+  font-weight: bold;
+}
+
+.http-head {
+  color: #13c2c2 !important;
+  font-weight: bold;
+}
+
+.http-options {
+  color: #eb2f96 !important;
+  font-weight: bold;
+}
+
+.table-name {
+  color: #46ccf5 !important;
+  font-weight: bold;
+}

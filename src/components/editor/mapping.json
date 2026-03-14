@@ -1,0 +1,368 @@
+{
+  "index_org_attribute_info": {
+    "mappings": {
+      "properties": {
+        "authStatus": {
+          "type": "keyword"
+        },
+        "authSuccTime": {
+          "type": "keyword"
+        },
+        "createdTime": {
+          "type": "keyword"
+        },
+        "getUCodeTime": {
+          "type": "keyword"
+        },
+        "lastModifiedTime": {
+          "type": "keyword"
+        },
+        "orgAttributeObject": {
+          "properties": {
+            "authLevel": {
+              "type": "keyword"
+            },
+            "authType": {
+              "type": "keyword"
+            },
+            "entityType": {
+              "type": "keyword"
+            },
+            "identificationCode": {
+              "type": "keyword"
+            },
+            "orgName": {
+              "type": "text",
+              "analyzer": "char_analyzer"
+            },
+            "realNameAuthMirrorInfo": {
+              "properties": {
+                "approveType": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "businessLicense": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "certCode": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "certEffdate": {
+                  "type": "date"
+                },
+                "certExpdate": {
+                  "type": "date"
+                },
+                "certImgs": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "certType": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "contactAddress": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "contactNumber": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "contacts": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "enterpriseCode": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "enterpriseName": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "enterpriseType": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "fullName": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "identityType": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "operatingPeriodBegin": {
+                  "type": "date"
+                },
+                "operatorPersonInfo": {
+                  "properties": {
+                    "operator": {
+                      "type": "text",
+                      "fields": {
+                        "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 256
+                        }
+                      }
+                    },
+                    "operatorAuthLetterImg": {
+                      "type": "text",
+                      "fields": {
+                        "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 256
+                        }
+                      }
+                    },
+                    "operatorCertEffdate": {
+                      "type": "date"
+                    },
+                    "operatorCertExpdate": {
+                      "type": "date"
+                    },
+                    "operatorCertImgs": {
+                      "type": "text",
+                      "fields": {
+                        "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 256
+                        }
+                      }
+                    },
+                    "operatorId": {
+                      "type": "text",
+                      "fields": {
+                        "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 256
+                        }
+                      }
+                    },
+                    "operatorIdType": {
+                      "type": "text",
+                      "fields": {
+                        "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 256
+                        }
+                      }
+                    }
+                  }
+                },
+                "orgEcologicalRoleAuthDesInfoList": {
+                  "properties": {
+                    "29b22363-c305-44eb-bbbf-01b74f4e49f6": {
+                      "properties": {
+                        "orgEcologicalRoleAuthDataLinks": {
+                          "type": "text",
+                          "fields": {
+                            "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                            }
+                          }
+                        },
+                        "orgEcologicalRoleID": {
+                          "type": "text",
+                          "fields": {
+                            "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                            }
+                          }
+                        }
+                      }
+                    },
+                    "4581e254-08bb-41a4-9cb0-b934788bd1c8": {
+                      "properties": {
+                        "orgEcologicalRoleAuthDataLinks": {
+                          "type": "text",
+                          "fields": {
+                            "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                            }
+                          }
+                        },
+                        "orgEcologicalRoleID": {
+                          "type": "text",
+                          "fields": {
+                            "keyword": {
+                              "type": "keyword",
+                              "ignore_above": 256
+                            }
+                          }
+                        }
+                      }
+                    }
+                  }
+                },
+                "orgEcologicalRoleIDList": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                },
+                "orgEcologicalRoleInfoList": {
+                  "properties": {
+                    "orgEcologicalRoleAuthDataLinks": {
+                      "type": "text",
+                      "fields": {
+                        "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 256
+                        }
+                      }
+                    },
+                    "orgEcologicalRoleID": {
+                      "type": "text",
+                      "fields": {
+                        "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 256
+                        }
+                      }
+                    }
+                  }
+                },
+                "tegalPersonInfo": {
+                  "properties": {
+                    "tegalPerson": {
+                      "type": "text",
+                      "fields": {
+                        "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 256
+                        }
+                      }
+                    },
+                    "tegalPersonCertCode": {
+                      "type": "text",
+                      "fields": {
+                        "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 256
+                        }
+                      }
+                    },
+                    "tegalPersonCertEffdate": {
+                      "type": "date"
+                    },
+                    "tegalPersonCertExpdate": {
+                      "type": "date"
+                    },
+                    "tegalPersonCertImgs": {
+                      "type": "text",
+                      "fields": {
+                        "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 256
+                        }
+                      }
+                    },
+                    "tegalPersonCertType": {
+                      "type": "text",
+                      "fields": {
+                        "keyword": {
+                          "type": "keyword",
+                          "ignore_above": 256
+                        }
+                      }
+                    }
+                  }
+                },
+                "userAddress": {
+                  "type": "text",
+                  "fields": {
+                    "keyword": {
+                      "type": "keyword",
+                      "ignore_above": 256
+                    }
+                  }
+                }
+              }
+            }
+          }
+        },
+        "orgID": {
+          "type": "keyword"
+        },
+        "orgStatus": {
+          "type": "keyword"
+        }
+      }
+    }
+  }
+}
