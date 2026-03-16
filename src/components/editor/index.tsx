@@ -137,7 +137,7 @@ const CustomMonacoEditor = ({
     ): monaco.languages.CompletionItemProvider => ({
       triggerCharacters: ['"', " ", ".", ":", "{", ","],
       // 启用自动触发补全
-      autoFocus: true,
+      // autoFocus: true,
 
       async provideCompletionItems(model, position) {
         if (position.lineNumber === 1) {
@@ -295,11 +295,16 @@ const CustomMonacoEditor = ({
     /* Backspace 控制 */
     editor.onKeyDown((e) => {
       if (e.keyCode === monacoInstance.KeyCode.Backspace) {
-        const position = editor.getPosition();
-        if (position?.lineNumber === 2 && position.column === 1) {
-          e.preventDefault();
-          e.stopPropagation();
+        const selection = editor.getSelection();
+        // 只有当没有选中内容且光标在第2行第1列时才阻止删除
+        if (
+          !selection?.isEmpty() ||
+          !(selection?.startLineNumber === 2 && selection?.startColumn === 1)
+        ) {
+          return;
         }
+        e.preventDefault();
+        e.stopPropagation();
       }
     });
 
