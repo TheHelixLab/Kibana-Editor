@@ -130,8 +130,6 @@ const CustomMonacoEditor = ({
 
     /* ---------------- completion provider ---------------- */
 
-    /* ---------------- completion provider ---------------- */
-
     const createProvider = (
       monacoInstance: typeof monaco,
     ): monaco.languages.CompletionItemProvider => ({
@@ -155,13 +153,44 @@ const CustomMonacoEditor = ({
           firstLine,
         );
 
+        // 获取当前行的内容
+        const lineContent = model.getLineContent(position.lineNumber);
+        // 判断光标是否在双引号内
+        const textBeforeCursor = lineContent.substring(0, position.column - 1);
+        const inQuotes = (textBeforeCursor.match(/"/g) || []).length % 2 === 1;
+
+        // 检查光标是否紧跟在左引号后面（即空引号内）
+        const isEmptyQuotes = inQuotes && textBeforeCursor.endsWith('"');
+
+        // 检查当前引号内是否有值（即是否有非空格字符）
+        let hasValueInQuotes = false;
+        if (inQuotes) {
+          const textAfterCursor = lineContent.substring(position.column - 1);
+          const nextQuoteIndex = textAfterCursor.indexOf('"');
+          if (nextQuoteIndex > 0) {
+            // 引号内的内容（不包括引号本身）
+            const quoteContent = textAfterCursor.substring(0, nextQuoteIndex);
+            hasValueInQuotes = quoteContent.trim().length > 0;
+          }
+        }
+
+        // 获取当前单词的范围
         const word = model.getWordUntilPosition(position);
-        const range = {
+        let range = {
           startLineNumber: position.lineNumber,
           endLineNumber: position.lineNumber,
           startColumn: word.startColumn,
           endColumn: word.endColumn,
         };
+
+        // 如果光标在引号内，扩展替换范围到结尾的引号
+        if (inQuotes && !isEmptyQuotes) {
+          const textAfterCursor = lineContent.substring(position.column - 1);
+          const nextQuoteIndex = textAfterCursor.indexOf('"');
+          if (nextQuoteIndex !== -1) {
+            range.endColumn = position.column + nextQuoteIndex;
+          }
+        }
 
         // 根据输入关键词过滤
         const keyword = word.word || "";
@@ -171,13 +200,6 @@ const CustomMonacoEditor = ({
             )
           : list;
 
-        // 获取当前行的内容
-        const lineContent = model.getLineContent(position.lineNumber);
-
-        // 判断光标是否在双引号内
-        const textBeforeCursor = lineContent.substring(0, position.column - 1);
-        const inQuotes = (textBeforeCursor.match(/"/g) || []).length % 2 === 1;
-
         // 判断当前行是否已经包含了冒号和值
         const hasColon = lineContent.includes(":");
         const hasBraces =
@@ -186,6 +208,7 @@ const CustomMonacoEditor = ({
         const suggestions = filteredList.map((item) => {
           // 默认使用原始的 insertText
           let insertText = item.insertText;
+          const insertTextRules = item.insertTextRules;
 
           // 判断建议类型
           const isFieldSuggestion =
@@ -195,15 +218,58 @@ const CustomMonacoEditor = ({
           const isModuleSuggestion =
             item.kind === monacoInstance.languages.CompletionItemKind.Module;
 
-          // 如果光标在双引号内，说明用户在输入键名
+          // 如果光标在引号内，说明用户在输入键名
           if (inQuotes) {
-            // 对于字段类型、属性类型或模块类型，只替换键名
+            // 对于字段类型、属性类型或模块类型
             if (
               isFieldSuggestion ||
               isPropertySuggestion ||
               isModuleSuggestion
             ) {
-              insertText = item.label;
+              // 获取光标后的文本
+              const textAfterCursor = lineContent.substring(
+                position.column - 1,
+              );
+
+              // 情况1: 空引号内补全 - 直接替换为空键值对
+              if (isEmptyQuotes) {
+                // 直接在当前光标位置插入键值对，不包含多余的引号
+                // insertText = `${item.label}": {$1}`;
+                // 从当前光标位置开始替换（不包括左引号）
+                range.startColumn = position.column;
+                // 替换到右引号位置（如果有右引号）
+                const nextQuoteIndex = textAfterCursor.indexOf('"');
+                if (nextQuoteIndex !== -1) {
+                  range.endColumn = position.column + nextQuoteIndex + 1; // +1 包含右引号
+                }
+              }
+              // 情况2: 有值的引号内补全 - 只替换键名
+              else if (hasValueInQuotes) {
+                insertText = item.label;
+              }
+              // 情况3: 默认情况，替换整个引号内容为键值对
+              else {
+                // 查找下一个双引号的位置
+                const nextQuoteIndex = textAfterCursor.indexOf('"');
+                // 检查双引号后是否有冒号（即是否已有值）
+                const hasColonAfterQuote =
+                  nextQuoteIndex !== -1 &&
+                  textAfterCursor.indexOf(":", nextQuoteIndex) !== -1;
+
+                if (hasColonAfterQuote) {
+                  // 已有值，只替换键名
+                  insertText = item.label;
+                } else {
+                  // 没有值，替换整个引号内容为键值对
+                  // insertText = `${item.label}": {$1}`;
+                  // 从当前光标位置开始替换
+                  range.startColumn = position.column;
+                  // 替换到右引号位置
+                  if (nextQuoteIndex !== -1) {
+                    range.endColumn = position.column + nextQuoteIndex + 1; // +1 包含右引号
+                  }
+                }
+              }
             }
           } else {
             // 光标不在双引号内，可能是在输入键值
@@ -226,7 +292,7 @@ const CustomMonacoEditor = ({
                   monaco.languages.CompletionItemKind.Text)
                 : item.kind,
             insertText,
-            insertTextRules: item.insertTextRules,
+            insertTextRules,
             detail: item.detail,
             range,
           };
