@@ -12,3 +12,7 @@
 用途:
 
 - 定制 kibana 开发工具
+
+Example:
+
+![example](./example.png)

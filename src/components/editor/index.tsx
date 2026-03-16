@@ -236,7 +236,7 @@ const CustomMonacoEditor = ({
                 // 直接在当前光标位置插入键值对，不包含多余的引号
                 insertText = item.insertText.substring(
                   1,
-                  item.insertText.length - 1,
+                  item.insertText.length,
                 );
                 // 从当前光标位置开始替换（不包括左引号）
                 range.startColumn = position.column;
@@ -266,7 +266,7 @@ const CustomMonacoEditor = ({
                   // 没有值，替换整个引号内容为键值对
                   insertText = item.insertText.substring(
                     1,
-                    item.insertText.length - 1,
+                    item.insertText.length,
                   );
                   // 从当前光标位置开始替换
                   range.startColumn = position.column;
