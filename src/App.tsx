@@ -1,14 +1,11 @@
-import { useState } from "react";
+import KibanaTools from "./components/KibanaTools";
 import "./App.css";
-import CustomMonacoEditor from "@/pages/query-sql";
 
 function App() {
-  const [inputEditorValue, setInputEditorValue] = useState("");
-
   return (
-    <>
-      <CustomMonacoEditor initialFirstLine="GET alias_org_attribute_info/_search" />
-    </>
+    <div style={{ width: "100%", padding: 12, boxSizing: "border-box" }}>
+      <KibanaTools height="calc(100vh - 24px)" buttonPosition="lineEnd" />
+    </div>
   );
 }
 

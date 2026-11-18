@@ -1,0 +1,12 @@
+{
+  "index_org_attribute_info": {
+    "aliases": {
+      "alias_org_attribute_info": {}
+    }
+  },
+  "index_log_app": {
+    "aliases": {
+      "alias_log": {}
+    }
+  }
+}

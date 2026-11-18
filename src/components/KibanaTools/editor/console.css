@@ -1,0 +1,218 @@
+/* KibanaTools 编辑器与面板样式（深色仿 Kibana Dev Tools） */
+
+/* ===== HTTP 方法着色（请求头行 decoration） ===== */
+.kt-http-get {
+  color: #22a06b !important;
+  font-weight: 600;
+}
+.kt-http-post {
+  color: #388bff !important;
+  font-weight: 600;
+}
+.kt-http-put {
+  color: #e2b203 !important;
+  font-weight: 600;
+}
+.kt-http-delete {
+  color: #ef5350 !important;
+  font-weight: 600;
+}
+.kt-http-head {
+  color: #9d71ff !important;
+  font-weight: 600;
+}
+.kt-http-patch {
+  color: #c4b5a0 !important;
+  font-weight: 600;
+}
+
+/* ===== 光标所在请求块的整行高亮 ===== */
+.kt-request-active {
+  background: rgba(56, 139, 255, 0.1);
+}
+
+/* ===== 请求头行左侧 gutter 按钮（buttonPosition="gutter"，hover 请求块时显示） ===== */
+/* 图标资产：KibanaTools/Icons/（取自 @elastic/eui 图标，Kibana 图标即 EUI 图标）；
+   运行 = EUI play_filled 实心三角（Kibana 原生 gutter 无圆底），缩进 = EUI editor_item_align_left。
+   URL 由 ConsoleEditor 以 CSS 变量下发（vite dev 不重写 CSS 内联注入的相对 url()，
+   直接写 url("./Icons/…") 在 dev 下按 document 解析会 404） */
+.kt-glyph-run {
+  cursor: pointer;
+  background-image: var(--kt-icon-play);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 16px 16px;
+}
+.kt-glyph-run:hover {
+  background-image: var(--kt-icon-play-hover);
+}
+/* 自动缩进按钮：行装饰区（行号右侧） */
+.kt-line-indent {
+  cursor: pointer;
+  background-image: var(--kt-icon-indent);
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 16px 16px;
+}
+.kt-line-indent:hover {
+  background-image: var(--kt-icon-indent-hover);
+}
+
+/* ===== 请求头行行末按钮（buttonPosition="lineEnd"，content widget 实现） ===== */
+/* widget 根（monaco 内联管 left/top/显隐，宽度由 hook 同步为内容区宽）：
+   整行条带覆盖内容区，按钮经内层 flex 固定到最右端；
+   pointer-events 穿透，行文字点击不受条带拦截 */
+.kt-row-end-widget {
+  position: absolute;
+  pointer-events: none;
+}
+.kt-row-btns {
+  display: flex;
+  align-items: center;
+  gap: 6px;
+  /* 高度撑到编辑器行高（ConsoleEditor lineHeight: 21）：
+     content widget EXACT 顶对齐行顶，撑满后按钮经 flex 居中，与行文字上下居中 */
+  height: 21px;
+  /* 收缩到按钮内容宽再由 margin-left:auto 贴条带右端：
+     默认 stretch 会填满整条，pointer-events:auto 随之覆盖全行，拦截行文字点击 */
+  width: fit-content;
+  margin-left: auto;
+  /* 与滚动条留间隙 */
+  margin-right: 8px;
+  /* 条带根穿透后，仅按钮区域恢复鼠标交互 */
+  pointer-events: auto;
+  cursor: default;
+}
+.kt-row-btns .kt-row-btn {
+  width: 16px;
+  height: 16px;
+  cursor: pointer;
+  background-repeat: no-repeat;
+  background-position: center;
+  /* 图标资产 16×16（EUI 原始尺寸），与 Icons/ 下 SVG 一致 */
+  background-size: 16px 16px;
+}
+/* 运行按钮：EUI play_filled 实心三角（Kibana 图标即 EUI 图标） */
+.kt-row-btns .kt-row-btn-run {
+  background-image: var(--kt-icon-play);
+}
+.kt-row-btns .kt-row-btn-run:hover {
+  background-image: var(--kt-icon-play-hover);
+}
+/* 自动缩进按钮：EUI editor_item_align_left */
+.kt-row-btns .kt-row-btn-indent {
+  background-image: var(--kt-icon-indent);
+}
+.kt-row-btns .kt-row-btn-indent:hover {
+  background-image: var(--kt-icon-indent-hover);
+}
+
+/* ===== 组件外壳 ===== */
+.kt-root {
+  display: flex;
+  flex-direction: column;
+  background: #1d1e24;
+  border: 1px solid #34383f;
+  border-radius: 8px;
+  overflow: hidden;
+  color: #d4d7dd;
+}
+
+/* 工具栏 */
+.kt-toolbar {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 8px 12px;
+  background: #191b1f;
+  border-bottom: 1px solid #34383f;
+}
+.kt-toolbar-title {
+  font-size: 13px;
+  font-weight: 600;
+  color: #e6e9ed;
+  margin-right: 4px;
+}
+/* 深色下的 antd 默认按钮外观（局部覆盖，不污染全局） */
+.kt-root .ant-btn-default {
+  background: transparent;
+  border-color: #434650;
+  color: #d4d7dd;
+}
+.kt-root .ant-btn-default:hover {
+  border-color: #388bff;
+  color: #ffffff;
+}
+/* 工具栏右侧轮询状态 */
+.kt-sync-status {
+  margin-left: auto;
+  font-size: 12px;
+  color: #7a808c;
+  font-variant-numeric: tabular-nums;
+}
+
+/* 编辑器/响应双栏（react-resizable-panels 可拖宽布局） */
+.kt-body {
+  flex: 1;
+  min-height: 0;
+}
+/* PanelGroup 自身注入 display:flex; height:100%，这里显式声明兜底 */
+.kt-panel-group {
+  height: 100%;
+}
+.kt-pane {
+  /* v4 Panel 内层 div 是普通 block（无高度），需显式撑满才能让编辑器 flex:1 生效 */
+  height: 100%;
+  display: flex;
+  flex-direction: column;
+  min-width: 0;
+  min-height: 0;
+}
+/* 编辑器与响应面板的分隔线由拖拽把手承担，.kt-pane-editor 不再画右边框 */
+/* 拖拽把手（v4 Separator）：6px 窄条，常态深色 + 左右细边线，
+   data-separator 属性值即交互状态（hover/active），高亮蓝色 */
+.kt-resize-handle {
+  box-sizing: border-box;
+  width: 6px;
+  background: #191b1f;
+  border-left: 1px solid #34383f;
+  border-right: 1px solid #34383f;
+  cursor: col-resize;
+}
+.kt-resize-handle[data-separator="hover"],
+.kt-resize-handle[data-separator="active"],
+.kt-resize-handle[data-separator="focus"] {
+  background: #388bff;
+  border-color: #388bff;
+}
+
+/* 响应面板头部 */
+.kt-response-header {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  min-height: 38px;
+  border-bottom: 1px solid #2b2e36;
+  font-size: 12px;
+}
+.kt-response-time {
+  color: #a8adb8;
+  font-variant-numeric: tabular-nums;
+}
+.kt-response-request {
+  color: #7a808c;
+  font-family: "Roboto Mono", Consolas, monospace;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+}
+.kt-response-empty {
+  color: #7a808c;
+}
+
+/* 编辑器容器需要约束高度让 monaco 正常布局 */
+.kt-editor-host {
+  flex: 1;
+  min-height: 0;
+}
